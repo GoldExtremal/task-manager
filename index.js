@@ -2,22 +2,52 @@ const tasks = [];
 const completedTasks = [];
 
 const task = {
-    title: "Купить продукты",
+    title: "qwerty",
     description: "Молоко, хлеб, яйца",
-    isCompleted: false,
-    createdDate: new Date(),
-    completedDate: null
+    isCompleted: true,
+    createdDate:  new Date(2026, 3, 10),
+    completedDate: new Date(2026, 3, 11)
 };
+
+// console.log(task.createdDate.getDate() + 10)
 
 const task1 = {
     title: "Сходить на тренировку",
-    description: "Молоко, хлеб, яйца",
-    isCompleted: true,
-    createdDate: new Date(),
+    description: "Молоко, хлеб, яйцFFа",
+    isCompleted: false,
+    createdDate: new Date(2026, 3, 4),
     completedDate: null
 };
 
 let completedTaskCount = 0;
+
+function getTaskDescriptions() {
+    return tasks.map( task => task.description)
+}
+
+function getLongTasks() {
+    return tasks.filter( task => task.title.length < 10)
+}
+
+function getTaskByDateRange(startDate, endDate, isCompleted = false) {
+    if (isCompleted) {
+        return tasks.filter( task => {
+            return (task.completedDate >= startDate) && (task.completedDate <= endDate) && (task.isCompleted)
+        })
+    } else {
+        return tasks.filter( task => {
+            return (task.createdDate >= startDate) && (task.createdDate <= endDate)
+        })
+    }
+}
+
+function clearShortTasks() {
+    return tasks.filter( task => task.title.length > 5)
+}
+
+function changeTaskTitleFromIndexInTasksArray(index, newTitle) {
+    tasks[index].title = newTitle;
+}
 
 function showTask(tasks) {
     (tasks.length === 0)
@@ -35,15 +65,9 @@ function setTask(taskDescription) {
 function completeTask(index) {
     const completedTask = tasks[index];
     completedTask.isCompleted = true;
-    completedTask.completedDate = Date.now();
+    completedTask.completedDate = new Date();
     completedTasks.push(completedTask);
     completedTaskCount++;
-
-    // if (task === "") {
-    //     console.log("Задача отсутствует");
-    //     return
-    // }
-    // task = "";
 }
 
 function deleteTask(index) {
@@ -71,17 +95,28 @@ function clearTasks() {
 
 setTask(task);
 setTask(task1);
-// showTask(tasks);
-console.log(tasks)
-setTimeout( () => {
-    deleteTask(1)
-    console.log(tasks);
-}, 5000);
-setTimeout( () => {
-    setTask(task1);
-    console.log(tasks);
-}, 10000);
-setTimeout( () => {
-    clearTasks();
-    console.log(tasks);
-}, 15000);
+// // showTask(tasks);
+// console.log(tasks)
+// setTimeout( () => {
+//     deleteTask(1)
+//     console.log(tasks);
+// }, 5000);
+// setTimeout( () => {
+//     setTask(task1);
+//     console.log(tasks);
+// }, 10000);
+// setTimeout( () => {
+//     clearTasks();
+//     console.log(tasks);
+// }, 15000);
+// console.log(getTaskDescriptions())
+// console.log(getLongTasks())
+const start = new Date(2026, 3, 1);
+// const end = start.getDate() + 14;
+const end = new Date( start.getFullYear(), start.getMonth(), start.getDate() + 14 );
+// end.setDate(start.getDate() + 14);
+// start.setDate(17);
+console.log(start);
+console.log(end);
+
+console.log(getTaskByDateRange(start, end, true))
